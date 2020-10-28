@@ -14,6 +14,7 @@
         android:background="@color/colorGray"
         android:paddingHorizontal="50dp"
         android:paddingTop="70dp"
+        android:paddingBottom="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -43,6 +44,7 @@
     </RelativeLayout>
 
     <com.cpoopc.scrollablelayoutlib.ScrollableLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
@@ -64,7 +66,6 @@
                 android:textSize="34sp"
                 android:textStyle="bold"
                 android:layout_weight="1"
-                android:layout_marginTop="40dp"
                 android:layout_marginLeft="50dp" />
             <LinearLayout
                 android:paddingHorizontal="32dp"
@@ -82,24 +83,51 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"/>
                 <EditText
-                    android:background="#FFF"
+                    android:id="@+id/et_search_input_home"
+                    android:background="#EFEEEE"
+                    android:paddingHorizontal="5dp"
+                    android:hint="Search"
                     android:layout_width="match_parent"
                     android:layout_height="60dp" />
             </LinearLayout>
         </RelativeLayout>
 
-<!--        <RelativeLayout-->
-<!--            android:layout_below="@id/rl_welcome"-->
-<!--            android:paddingHorizontal="50dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-<!--            <com.google.android.material.tabs.TabLayout-->
-<!--                android:id="@+id/tl_login"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:tabIndicatorColor="@color/colorAccentSecondary" />-->
-<!--        </RelativeLayout>-->
+        <RelativeLayout
+            android:id="@+id/rl_main"
+            android:background="@color/colorGray"
+            android:layout_below="@id/rl_welcome"
+            android:paddingLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_main"
+                app:tabMode="scrollable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/colorAccentSecondary" />
+        </RelativeLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_main"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            tools:layout_editor_absoluteX="8dp" />
 
     </com.cpoopc.scrollablelayoutlib.ScrollableLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@color/tab_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
