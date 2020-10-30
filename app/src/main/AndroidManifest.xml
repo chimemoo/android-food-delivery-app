@@ -13,7 +13,7 @@
         <activity
             android:name=".LoginScreen"
             android:isScrollContainer="true"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,68 +1,158 @@
 package com.chimemoo.fooddeliveryapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
-import android.content.res.ColorStateList;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.chimemoo.fooddeliveryapp.adapter.AuthAdapter;
-import com.chimemoo.fooddeliveryapp.adapter.MainAdapter;
-import com.google.android.material.tabs.TabLayout;
+import com.chimemoo.fooddeliveryapp.adapter.DrawerAdapter;
+import com.chimemoo.fooddeliveryapp.fragment.HistoryFragment;
+import com.chimemoo.fooddeliveryapp.fragment.HomeFragment;
+import com.chimemoo.fooddeliveryapp.fragment.LoveFragment;
+import com.chimemoo.fooddeliveryapp.fragment.UserFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.Arrays;
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
+import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
+import nl.psdcompany.duonavigationdrawer.views.DuoMenuView;
+import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
-    private static String[] foodTypes = {
-            "All",
-            "Foods",
-            "Drinks",
-            "Snacks",
-            "Sauces"
-    };
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, DuoMenuView.OnMenuClickListener {
+    BottomNavigationView bottomNavigationView;
+    DrawerAdapter drawerAdapter;
+    private ViewHolder mViewHolder;
+
+
+    private ArrayList<String> drawerMenuList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Initialize Drawer Menu Item
+        drawerMenuList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuDrawer)));
 
-        tabLayout = findViewById(R.id.tl_main);
-        viewPager = findViewById(R.id.vp_main);
+        // Initialize bottom navigation
+        bottomNavigationView = findViewById(R.id.bnv_bottom);
 
-        for(int i = 0; i < foodTypes.length; i++){
-            tabLayout.addTab(tabLayout.newTab().setText(foodTypes[i]));
-        }
+        // Initialize view Holder
+        mViewHolder = new ViewHolder();
 
-        final MainAdapter mainAdapter = new MainAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(mainAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        handleToolbar();
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+        handleMenu();
 
-            }
+        handleDrawer();
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+        // Load fragment
+        loadFragment(new HomeFragment());
 
-            }
-        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+
+    private void handleMenu() {
+        drawerAdapter = new DrawerAdapter(drawerMenuList);
+
+        mViewHolder.menuView.setOnMenuClickListener(this);
+        mViewHolder.menuView.setAdapter(drawerAdapter);
+    }
+
+    private void handleToolbar() {
+        setSupportActionBar(mViewHolder.toolbarMain);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void handleDrawer() {
+        DuoDrawerToggle duoDrawerToggle;
+        duoDrawerToggle = new DuoDrawerToggle(this,
+                mViewHolder.drawerLayout,
+                mViewHolder.toolbarMain,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        mViewHolder.drawerLayout.setDrawerListener(duoDrawerToggle);
+        mViewHolder.drawerLayout.setBackgroundColor(R.color.colorAccentSecondary);
+        duoDrawerToggle.syncState();
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.et_search_input_home){
-            Intent intent = new Intent(MainActivity.this, SearchScreen.class);
-            startActivity(intent);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.top_nav_menu, menu);
+        return true;
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+        //switching fragment
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fl_main_home, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Fragment fragment = null;
+
+        switch (menuItem.getItemId()) {
+            case R.id.action_home:
+                fragment = new HomeFragment();
+                break;
+
+            case R.id.action_love:
+                fragment = new LoveFragment();
+                break;
+
+            case R.id.action_user:
+                fragment = new UserFragment();
+                break;
+
+            case R.id.action_history:
+                fragment = new HistoryFragment();
+                break;
+        }
+
+        return loadFragment(fragment);
+    }
+
+    @Override
+    public void onFooterClicked() {
+
+    }
+
+    @Override
+    public void onHeaderClicked() {
+
+    }
+
+    @Override
+    public void onOptionClicked(int position, Object objectClicked) {
+
+    }
+
+    private class ViewHolder{
+        private DuoDrawerLayout drawerLayout;
+        private DuoMenuView menuView;
+        private Toolbar toolbarMain;
+
+        ViewHolder() {
+            drawerLayout = findViewById(R.id.dl_main);
+            menuView = (DuoMenuView) drawerLayout.getMenuView();
+            toolbarMain = findViewById(R.id.toolbar_main);
         }
     }
 }

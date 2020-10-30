@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.chimemoo.fooddeliveryapp.fragment.HomeFragment;
 import com.chimemoo.fooddeliveryapp.fragment.MainProductFragment;
 
-public class MainAdapter extends FragmentPagerAdapter {
-    Context context;
+public class MainProductAdapter extends FragmentPagerAdapter {
+    HomeFragment context;
     int totalTabs;
 
-    public MainAdapter(Context c, FragmentManager fm, int totalTabs) {
+    public MainProductAdapter(HomeFragment c, FragmentManager fm, int totalTabs) {
         super(fm);
         context = c;
         this.totalTabs = totalTabs;

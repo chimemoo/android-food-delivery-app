@@ -1,133 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dl_main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGray"
+    app:menu="@layout/app_drawer_layout"
+    app:contentScaleOpen="0.5"
+    app:contentScaleClosed="1.0"
+    app:marginFactor="0.4"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <nl.psdcompany.duonavigationdrawer.views.DuoMenuView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorGray"
-        android:paddingHorizontal="50dp"
-        android:paddingTop="70dp"
-        android:paddingBottom="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:background="@drawable/ic_shopping_cart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteY="0dp" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="30dp"
-                android:layout_height="26dp"
-                android:background="@drawable/ic_menu"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </RelativeLayout>
-
-    <com.cpoopc.scrollablelayoutlib.ScrollableLayout
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+        android:tag="@string/tag_menu"
+        app:footer="@layout/drawer_footer"
+        app:background="@color/colorAccentSecondary"/>
 
-        <RelativeLayout
-            android:id="@+id/rl_welcome"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/colorGray"
+        android:tag="@string/tag_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_main"
+            app:menu="@menu/top_nav_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:textColor="@android:color/black"
-                android:id="@+id/tv_welcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delicious\nfood For You"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                android:layout_weight="1"
-                android:layout_marginLeft="50dp" />
-            <LinearLayout
-                android:paddingHorizontal="32dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="28dp"
-                android:layout_marginHorizontal="50dp"
-                android:layout_below="@id/tv_welcome"
-                android:background="@drawable/round_button_white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:background="@drawable/ic_search"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
-                <EditText
-                    android:id="@+id/et_search_input_home"
-                    android:background="#EFEEEE"
-                    android:paddingHorizontal="5dp"
-                    android:hint="Search"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_main"
+            android:paddingHorizontal="30dp"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
             android:background="@color/colorGray"
-            android:layout_below="@id/rl_welcome"
-            android:paddingLeft="50dp"
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tl_main"
-                app:tabMode="scrollable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabIndicatorColor="@color/colorAccentSecondary" />
-        </RelativeLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_main"
+        <FrameLayout
+            android:id="@+id/fl_main_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_main"
             android:layout_centerInParent="true"
-            android:layout_marginTop="30dp"
-            tools:layout_editor_absoluteX="8dp" />
+            android:background="@color/colorGray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_main" />
 
-    </com.cpoopc.scrollablelayoutlib.ScrollableLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnv_bottom"
+            app:labelVisibilityMode="unlabeled"
+            app:itemIconTint="@color/tab_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorGray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@color/tab_color"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorGray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout>
